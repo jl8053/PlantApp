@@ -1,13 +1,81 @@
+body{
+    background-color: rgb(166, 194, 145);
+
+}
+
+.edit .MuiFormControl-root{
+  /* background-color: white; */
+  width: 100%;
+}
+
+.edit .MuiPaper-root {
+  padding: 10px;
+}
+
+.edit .MuiFab-primary {
+  background-color: green;
+}
+
+h1{
+  font-weight: 700;
+  color: rgb(245, 241, 241);
+  margin-inline-start: 20px;
+  margin-block-end: 0px;
+}
+
+h2{
+  font-size: 20px;
+  color: rgb(63, 62, 62);
+  font-weight: 300;
+}
+
+h4{
+  
+  font-size: 25px;
+  font-weight: medium;
+  color: white;
+  margin-left: 20px;
+  margin: 10px auto;
+  text-align: center;
+}
+
+
+p{
+  margin-block-start: 15px;
+  margin-block-end: 15px;
+}
+
 .App {
-  /* text-align: center; */
   text-decoration: none;
-  margin: 50px;
+
 }
 
 .list{
-  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  font-weight: 200;
+  color: rgb(75, 73, 73);
 }
 
+h3{
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: medium;
+  color: white;
+}
+
+.Card{
+  margin: 1em;
+}
+
+.Card1{
+  margin: 1em;
+}
+
+.descriptionAlign{
+  display: flex;
+  flex-direction: row;
+  padding-block-start: 5px;
+}
 .plant-type{
   display: flex;
   flex-direction: column;
@@ -16,16 +84,54 @@
 .plant{
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* width: 100vh; */
+  border: 2px;
+  border-bottom-style: solid;
+  border-color: rgb(204, 204, 204); 
 }
 
 .plantLink {
   text-decoration: none;
+  color: black;
 }
 
-.plant-descption{
-  font-family: 'Raleway', sans-serif;
+.plantLink1{
+  text-decoration: none;
+  color: black;
+}
+
+.plantLink2{
+  text-decoration: none;
+  color: black;
+}
+
+.plantLink3{
+  text-decoration: none;
+  color: black;
+}
+
+.plantType {
+  font-size: 15px;
+  color: rgb(94, 92, 92);
+}
+
+.plantName {
+  font-size: 25px;
+  color: rgb(94, 92, 92);
+}
+
+.plantDescription{
+  color: rgb(94, 92, 92);
   border: 30px;
+  font-size: 18px;
+  padding-inline-start: 25px;
+  margin-top: 0%;
+}
+
+.plantLocation{
+  padding-block-start: 0px;
 }
 
 .edit {
@@ -37,8 +143,19 @@
   color: white;
 }
 
+.editArrowBack2{
+  align-items: top;
+}
+/* .editArrowBack1{
+
+} */
+
 .editCheck{
   color: white;
+}
+
+.editCheck2{
+  float:right;
 }
 
 .App-header {
@@ -54,5 +171,21 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.Calendar{
+  align-items: center;
+}
+
+.Calendar .MuiFab-primary{
+  background-color: green;
+}
+
+.react-calendar{
+  margin: 20px auto;
+}
+
+.calendarHeading{
+  text-align: center;
 }
 

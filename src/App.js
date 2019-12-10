@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import EcoIcon from '@material-ui/icons/Eco';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -18,6 +17,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Calendar from 'react-calendar'
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Button from '@material-ui/core/Button';
+import CardActions from '@material-ui/core/CardActions';
 
 let plantList = [
   {
@@ -43,6 +50,11 @@ let plantList = [
 ]
 
 function App() {
+
+  function handleChange(data, key){
+      if (key === "name"){
+      }
+  }
   return (
     <Router>
     <div className="App">
@@ -50,12 +62,19 @@ function App() {
           <Route exact path="/">
             <MyPlants/>
           </Route>
+          <Route exact path="/editPlant"
+          render={(props) => <Edit createMode="true" {...props} />}>
+            {/* <Edit/> */}
+          </Route>
           <Route exact path="/editPlant/:plant"
           render={(props) => <Edit {...props} />}>
             {/* <Edit/> */}
           </Route>
           <Route exact path="/calendar">
-            <Calendar />
+            <CalendarPage />
+          </Route>
+          <Route exact path="/waterPlants">
+            <WaterPlants/>
           </Route>
         </Switch>
     </div>
@@ -66,55 +85,106 @@ function App() {
 function MyPlants() {
   return (
       <div className="list">
-        <style>
-@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
-</style>
          <h1> My Plants </h1>
+         <h3>Hi Janice, your plants are waiting for your care. </h3>
       {plantList.map(Plants)}
-      <Bottom/>
+      <CenteredTabs/>
   </div>
+  );
+}
+
+function CenteredTabs() {
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <Paper>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        centered
+      >
+        <Link to = "/waterPlants" className="plantLink1"><Tab label="Water" icon={<EcoIcon/>} /></Link>
+        <Link to ="/editPlant" className="plantLink2"><Tab label="Add Plant" icon={<AddBoxIcon/>} /></Link>
+        <Link to ="/calendar" className="plantLink3"><Tab label="Calendar" icon={<DateRangeIcon/>} /></Link>
+      </Tabs>
+    </Paper>
   );
 }
 
 function Plants(props, key) {
   return (
+   <Card className="Card">
+      <CardContent>
     <div className="plant">
       <Link to={"/editPlant/" + key} className="plantLink">
-      <div className="plant-type">
-        <h1> {props.planttype} </h1>
-        <p> {props.name} </p>
-        <img src={props.image} width="100"/>  
+      <div className="plantType">
+        <h2> {props.planttype} </h2>
       </div>
-      <div className="plant-description">
+      <div className= "plantName">
+        <p> {props.name} </p>
+      </div>
+      <div className= "descriptionAlign">
+      <div className= "plantImage">
+        <img src={props.image} width="110"/>  
+      </div>
+      <div className="plantDescription">
         <p> {props.location}</p>
         <p> {props.lighting} </p>
         <p> {props.water}</p>
       </div>
+      </div>
       </Link>
     </div>
+    </CardContent>
+    </Card>
   )
 }
 
-function Bottom() {
-  const [value, setValue] = React.useState(0);
-  return (
-    <div className= "bottomNavigation">
-      <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-    >
-      <Link to = "/editPlant">
-        <BottomNavigationAction label="Add Plant" icon={<AddBoxIcon />} />
-      </Link>
-      <Link to = "/calendar">
-        <BottomNavigationAction label="Calendar" icon={<DateRangeIcon />} />
-      </Link>
-    </BottomNavigation>
-    </div>
-  )
+function WaterPlants(props) {
+
+const [date, setDate] = React.useState(new Date('11/10/2019'));
+const handleDateChange = function() {
+  setDate(new Date())
+}
+  return(
+    <div>
+    <div className= "arrowBack">
+    <Fab aria-label="back" color= "primary" >
+    <Link to ="/">  
+      <ArrowBackIcon className="editArrowBack"/>
+    </Link>
+  </Fab>  
+  </div>
+  <h4>Plants need water</h4>
+  <Card className="Card">
+      <CardContent>
+      <div className="plantType">
+        <h2> Echinopsis </h2>
+      </div>
+      <div className= "plantName">
+        <p> Chad </p>
+      </div>
+      <div className= "descriptionAlign">
+      <div className= "plantImage">
+        <img src='https://cdn11.bigcommerce.com/s-oqm1pc/images/stencil/1280x1280/products/2828/7012/spachiana__76320.1540314925.jpg?c=2' width="110"/>  
+      </div>
+      <div className="plantDescription">
+        <p> Indoor </p>
+        <p> Full Sun </p>
+        <p> Last watered: {date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()}</p>
+      </div>
+      </div>
+      </CardContent>
+      <CardActions>
+        <Button onClick={handleDateChange} size="medium" color="primary">Water me!</Button>
+      </CardActions>
+  </Card>
+  </div>
+  )    
 }
 
 function Edit(props) {
@@ -123,17 +193,21 @@ function Edit(props) {
   const handleChange = event => {
     setFrequency(event.target.value);
   };
-
-  const plant = plantList[props.match.params.plant];
+  const plant = props.createMode ? {} : plantList[props.match.params.plant];
+  console.log(props.createMode);
   console.log(plant);
+  
 
   return (
       <div className= "edit">
-        <Fab aria-label="back" color= "primary" >
-          <Link to ="/">  
-            <ArrowBackIcon className="editArrowBack"/>
-          </Link>
-        </Fab>  
+          <Fab aria-label="back" color= 'primary' >
+            <Link to ="/">  
+              <ArrowBackIcon className="editArrowBack"/>
+            </Link>
+          </Fab>
+        <h4> Add a Plant To Your Family! </h4>
+        <div className="Card1" >
+        <Card>
         <TextField
           label="Plant Type"
           defaultValue={plant.planttype}
@@ -184,22 +258,37 @@ function Edit(props) {
           margin="normal"
           variant="outlined"
         />
-      <Fab aria-label="check" color= "primary" >
-        <Link to ="/">  
-          <CheckCircleIcon className="editCheck"/>
-        </Link>
-      </Fab>  
-      {/* two buttons: back and checkmark
-      camera/photo upload
-       */}
+    </Card>
+    </div> 
+      <Link to ="/">  
+        <div className="editCheck2">
+          <Fab aria-label="check" color= "primary" >
+            <CheckCircleIcon className= "editCheck"/>
+          </Fab>  
+         </div>
+      </Link>
     </div>
   )
 }
 
-function Calendar() {
+function CalendarPage() {
   return (
-    <div className="calendar">
-      {/* import npm calendar */}
+    <div className="Calendar">
+      <div  className="editArrowBack2">
+       <Fab aria-label="back" color= "primary">
+          <Link to ="/">  
+            <ArrowBackIcon className="editArrowBack"/>
+          </Link>
+        </Fab>  
+        </div>
+      <div className="calendarHeading">
+      <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+</style>
+        <h1> Your Plant Calendar </h1>
+        <h3>Here is your water schedule in a nutshell.</h3>
+      </div>
+      <Calendar tileClassName={({ activeStartDate, date, view }) => view === 'month' && date.getDay() === 3 ? 'wednesday' : null}/>
     </div>
   )
 }
